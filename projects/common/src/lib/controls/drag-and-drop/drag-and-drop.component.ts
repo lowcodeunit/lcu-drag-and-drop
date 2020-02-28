@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { DragAndDropModel } from '../../models/drag-and-drop.model';
+import { Component, OnInit, Input } from '@angular/core';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+
 
 @Component({
   selector: 'lcu-drag-and-drop',
@@ -8,22 +9,24 @@ import { DragAndDropModel } from '../../models/drag-and-drop.model';
 })
 export class DragAndDropComponent implements OnInit {
 
-  @Input() public card: DragAndDropModel;
+  protected _userCollection: Array<any>;
 
-  @Output() public cardSelected: EventEmitter<any>;
+  @Input('user-collection')
+  public set UserCollection(value: any) {
+    this._userCollection = value;
+  }
+  public get UserCollection() {
+    return this._userCollection;
+  }
 
   constructor() {
-    this.cardSelected = new EventEmitter<any>();
+
   }
 
   public ngOnInit(): void { }
 
-  public SelectCard(url?: string): void {
-    this.cardSelected.emit();
-
-    if (url) {
-      window.open(url);
-    }
+  public Drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.UserCollection, event.previousIndex, event.currentIndex);
   }
 
 }
