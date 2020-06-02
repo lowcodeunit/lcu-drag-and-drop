@@ -1,0 +1,3 @@
+<div cdkDropList (cdkDropListDropped)="Drop($event)">
+    <div *ngFor="let item of UserCollection" cdkDrag>{{item}}</div>
+</div>
